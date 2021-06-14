@@ -22,9 +22,10 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuardService } from './services/auth-gaurd.service';
 import { authInterceptorProviders } from './_helpers/auth-interceptor';
+import { MenuVisuComponent } from './menu-visu/menu-visu.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { authInterceptorProviders } from './_helpers/auth-interceptor';
     ProfileComponent,
     BoardAdminComponent,
     BoardModeratorComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    MenuVisuComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +53,7 @@ import { authInterceptorProviders } from './_helpers/auth-interceptor';
     NgbModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [AuthGuardService, authInterceptorProviders],
   bootstrap: [AppComponent]

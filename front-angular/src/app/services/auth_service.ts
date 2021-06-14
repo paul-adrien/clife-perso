@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from 'libs/user';
 import { map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api/';
+const AUTH_API = '';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

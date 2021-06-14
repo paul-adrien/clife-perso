@@ -31,6 +31,10 @@ export class Risques {
             <div class="custom-control custom-checkbox mr-5" >
               <input type="checkbox" class="custom-control-input" id="customCheckRepartiteur" checked (click)="showRepartiteurs()">
               <label class="custom-control-label" for="customCheckRepartiteur"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Répartiteurs</label>
+              <div class="form-group">
+                <label for="fichier">Choisir un fichier</label>
+                <input type="file" id="fichier" (change)="envoiFichier($event.target.files)"/>
+              </div>
             </div>
             <div>
               <h4>Données climatiques</h4>
@@ -120,6 +124,9 @@ export class TemperatureComponent implements AfterViewInit {
   };
   nbRisques = 5;
 
+  fichier: File = null;
+  filePreview = null;
+
   coordinates = new google.maps.LatLng(this.lat, this.lng);
 
   mapOptions: google.maps.MapOptions = {
@@ -155,6 +162,7 @@ export class TemperatureComponent implements AfterViewInit {
   //afficher ou cacher les repartiteurs
   showRepartiteurs() {
     if (this.repartiteur === false) {
+      this.repartiteurs = (repartiteurs as any).default;
       if (this.map.getZoom() >= 10) {
         this.removeMarkers();
         this.pushMarkers();
@@ -364,4 +372,32 @@ export class TemperatureComponent implements AfterViewInit {
   changeMarkerColor(markerList, color) {
     markerList.setOptions({ strokeColor: color, fillColor: color, strokeOpacity: 0.45, fillOpacity: 0.45 });
   }
+
+  envoiFichier(fichiers: FileList) {
+    var ele = document.getElementById("customCheckRepartiteur") as HTMLInputElement;
+    if (ele.checked === true)
+      document.getElementById('customCheckRepartiteur').click();
+    this.fichier = fichiers.item(0);
+    const fileReader = new FileReader();
+    fileReader.readAsText(this.fichier, "UTF-8");
+    fileReader.onload = () => {
+      this.filePreview = fileReader.result;
+      console.log(JSON.parse(this.filePreview));
+      this.repartiteurs = JSON.parse(this.filePreview);
+      if (this.map.getZoom() >= 10) {
+        this.removeMarkers();
+        this.pushMarkers();
+        this.carre = false;
+      } else if (this.map.getZoom() <= 9) {
+        this.removeMarkers();
+        this.pushCarres();
+        this.carre = true;
+      }
+      this.repartiteur = false;
+    }
+    fileReader.onerror = (error) => {
+      console.log(error);
+    }
+  }
+
 }

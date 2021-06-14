@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth_service';
+import { environment } from 'src/environments/environment';
+
+const AUTH_API = '';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -37,7 +40,7 @@ export class AuthGuardService implements CanActivate {
 
   verify(token, id): Observable<any> {
     return this.http.post(
-      "http://localhost:8080/api/" + "verifyToken",
+      AUTH_API + "verifyToken",
       {
         id: id,
         token: token,
